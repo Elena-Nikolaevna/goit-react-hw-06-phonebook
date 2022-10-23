@@ -1,3 +1,4 @@
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import css from './ContactItem.module.css';
@@ -21,7 +22,13 @@ const ContactItem = ({ contacts, onDeleteContact }) => (
 );
 
 ContactItem.propTypes = {
-    contacts: PropTypes.array.isRequired,
+    contacts: PropTypes.arrayOf(
+		PropTypes.exact({
+		  name: PropTypes.string.isRequired,
+		  number: PropTypes.string.isRequired,
+		  id: PropTypes.string.isRequired,
+		})
+	  ),
     onDeleteContact: PropTypes.func.isRequired,
 };
 
