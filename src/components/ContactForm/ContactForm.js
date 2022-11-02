@@ -2,23 +2,58 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 //import { nanoid } from 'nanoid';
 import css from './ContactForm.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { setItems } from 'redux/contactsSlice';
+import { nanoid } from 'nanoid';
 
-export default function ContactForm({ onSubmit }) {
+const ContactForm = ({ onSubmit }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const dispatch = useDispatch();
+  const contacts = useSelector(state => state.contacts.items);
 
-  const changeInputName = event => {
+  const handleContact = userData => {
+    let inputName = userData.name;
+    const isIncludesName = contacts.find(
+      contact => contact?.name?.toLowerCase() === inputName.toLowerCase()
+    );
+
+    if (isIncludesName) {
+      return alert(`${inputName} is already is contacts`);
+    }
+
+    const contact = { ...userData, id: nanoid() };
+    dispatch(setItems(contact));
+  };
+
+  const changeInputName = e => {
+    const { name, value } = e.currentTarget;
+
+    switch (name) {
+      case 'name':
+        setName(value);
+        break;
+      case 'number':
+        setNumber(value);
+        break;
+      default:
+        return;
+    }
+  };
+
+  /*  const changeInputName = event => {
     setName(event.currentTarget.value);
-  };
+  }; */
 
-  const changeInputNumber = event => {
+  /*  const changeInputNumber = event => {
     setNumber(event.currentTarget.value);
-  };
+  }; */
 
   const hendleSubmit = event => {
     event.preventDefault();
-    const data = { name, number };
-    onSubmit(data);
+    handleContact({ name, number });
+    //const data = { name, number };
+    //onSubmit(data);
     reset();
   };
 
@@ -47,7 +82,7 @@ export default function ContactForm({ onSubmit }) {
         <input
           className={css.input}
           value={number}
-          onChange={changeInputNumber}
+          onChange={changeInputName}
           type="tel"
           name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -60,10 +95,13 @@ export default function ContactForm({ onSubmit }) {
       </button>
     </form>
   );
-}
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
+
+ContactForm.propTypes = {
+  props: PropeTypes.func,
+};
+
+export default ContactForm;
 /* class ContactForm extends Component {
     state = {
         name: '',
