@@ -98,7 +98,7 @@ const ContactForm = ({ onSubmit }) => {
 };
 
 ContactForm.propTypes = {
-  props: PropeTypes.func,
+  props: PropTypes.func,
 };
 
 export default ContactForm;
