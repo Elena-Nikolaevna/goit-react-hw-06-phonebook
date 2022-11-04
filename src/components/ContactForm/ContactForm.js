@@ -1,18 +1,46 @@
-import { useState } from 'react';
-import PropTypes from 'prop-types';
+//import { useState } from 'react';
+//import PropTypes from 'prop-types';
 //import { nanoid } from 'nanoid';
 import css from './ContactForm.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { setItems } from 'redux/contactsSlice';
+import { setItems, getContacts } from 'redux/contactsSlice';
 import { nanoid } from 'nanoid';
 
-const ContactForm = ({ onSubmit }) => {
-  const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+export function ContactForm() {
+  //const [name, setName] = useState('');
+  //const [number, setNumber] = useState('');
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts.items);
+  const contacts = useSelector(getContacts);
 
-  const handleContact = userData => {
+  const nameId = nanoid();
+  const numberId = nanoid();
+
+  const handleSubmit = evt => {
+    evt.preventDefault();
+
+    const form = evt.currentTarget;
+    const name = form.elements.name.value;
+    const number = form.elements.number.value;
+    const normalizedName = name.toLowerCase();
+    const checkDoubling = contacts
+      .map(contact => contact.name.toLowerCase())
+      .includes(normalizedName);
+    if (checkDoubling) {
+      alert(`${name} is already in your contacts`);
+      return;
+    }
+
+    const newId = nanoid();
+    const newContact = {
+      id: newId,
+      name,
+      number,
+    };
+    dispatch(setItems(newContact));
+    form.reset();
+  };
+
+  /*  const handleContact = userData => {
     let inputName = userData.name;
     const isIncludesName = contacts.find(
       contact => contact?.name?.toLowerCase() === inputName.toLowerCase()
@@ -40,7 +68,7 @@ const ContactForm = ({ onSubmit }) => {
         return;
     }
   };
-
+ */
   /*  const changeInputName = event => {
     setName(event.currentTarget.value);
   }; */
@@ -49,7 +77,7 @@ const ContactForm = ({ onSubmit }) => {
     setNumber(event.currentTarget.value);
   }; */
 
-  const hendleSubmit = event => {
+  /*   const hendleSubmit = event => {
     event.preventDefault();
     handleContact({ name, number });
     //const data = { name, number };
@@ -61,15 +89,14 @@ const ContactForm = ({ onSubmit }) => {
     setName('');
     setNumber('');
   };
-
+ */
   return (
-    <form onSubmit={hendleSubmit} className={css.formWrap}>
+    <form onSubmit={handleSubmit} className={css.formWrap}>
       <div className={css.inputWrap}>
         <label className={css.label}>Name</label>
         <input
           className={css.input}
-          value={name}
-          onChange={changeInputName}
+          id={nameId}
           type="text"
           name="name"
           pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -78,11 +105,12 @@ const ContactForm = ({ onSubmit }) => {
         />
       </div>
       <div className={css.inputWrap}>
-        <label className={css.label}>Number</label>
+        <label className={css.label} htmlFor={numberId}>
+          Number
+        </label>
         <input
           className={css.input}
-          value={number}
-          onChange={changeInputName}
+          id={numberId}
           type="tel"
           name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -95,13 +123,13 @@ const ContactForm = ({ onSubmit }) => {
       </button>
     </form>
   );
-};
+}
 
-ContactForm.propTypes = {
+/* ContactForm.propTypes = {
   props: PropTypes.func,
 };
 
-export default ContactForm;
+export default ContactForm; */
 /* class ContactForm extends Component {
     state = {
         name: '',
