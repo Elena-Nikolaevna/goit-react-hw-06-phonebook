@@ -4,7 +4,7 @@ import css from './ContactItem.module.css';
 import { useDispatch } from 'react-redux';
 import { deleteItems } from 'redux/contactsSlice';
 
-const ContactItem = ({ name, number, id }) => {
+export const ContactItem = ({ name, number, id }) => {
   const dispatch = useDispatch();
   const onDeleteContact = contactId => dispatch(deleteItems(contactId));
   return (
@@ -45,11 +45,11 @@ ContactItem.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.exact({
       name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
+      number: PropTypes.number.isRequired,
       id: PropTypes.string.isRequired,
     })
   ),
-  onDeleteContact: PropTypes.func.isRequired,
+  
 };
 
-export default ContactItem;
+
