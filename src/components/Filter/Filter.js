@@ -2,11 +2,11 @@
 ///import PropTypes from 'prop-types';
 import css from './Filter.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFilter } from 'redux/contactsSlice';
+import { setFilter, getFilter } from 'redux/contactsSlice';
 
-const Filter = () => {
+export const Filter = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(state => state.contacts.filter);
+  const filter = useSelector(getFilter);
 
   const handleFilterChange = e => {
     dispatch(setFilter(e.target.value));
@@ -23,7 +23,7 @@ const Filter = () => {
     </div>
   );
 };
-export default Filter;
+
 
 /* Filter.propTypes = {
   filter: PropTypes.string,
