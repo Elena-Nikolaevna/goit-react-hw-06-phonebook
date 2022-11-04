@@ -1,13 +1,13 @@
 import s from './App.module.css';
 //import React, { Component } from 'react';
-import ContactForm from './ContactForm';
-import Filter from './Filter/Filter';
-import ContactList from './ContactList/ContactList';
+import {ContactForm} from './ContactForm/ContactForm';
+import {Filter} from './Filter/Filter';
+import {ContactList} from './ContactList/ContactList';
 //import ContactItem from './ContactItem/ContactItem';
 //import {useState,useEffect} from "react";
 //import { nanoid } from 'nanoid';
 
-const App = () => {
+export function App () {
   return (
     <>
       <div className={s.container}>
@@ -15,11 +15,10 @@ const App = () => {
         <ContactForm />
         <h2 className={s.title}>Contacts</h2>
         <Filter />
-        <ContactList />
-         
+        <ContactList />         
       </div>
     </>
   );
 }
 
-export default App;
+
