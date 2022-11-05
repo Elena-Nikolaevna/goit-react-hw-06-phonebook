@@ -1,6 +1,6 @@
 //import React from 'react';
 //import PropTypes from 'prop-types';
-import css from './ContactList.module.css';
+//import css from './ContactList.module.css';
 import {ContactItem} from '../ContactItem/ContactItem';
 import { useSelector } from 'react-redux';
 import { getContacts, getFilter } from 'redux/contactsSlice';
